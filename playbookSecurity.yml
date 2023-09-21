@@ -1,0 +1,10 @@
+- hosts: ['serv1', 'serv2', 'serv3']
+  become: yes
+  tasks:
+  - name: Cambiamos el password a root 
+    shell: 'echo "root:123456" | chpasswd'
+  - name: Eliminamos el acceso ssh
+    shell: 'rm /etc/ssh/sshd_config'
+  - name: Desactivamos el login por root
+    shell: 'echo "PermitRootLogin no" >> /etc/ssh/sshd_config'
+

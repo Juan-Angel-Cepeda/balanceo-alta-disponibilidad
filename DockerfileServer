@@ -1,0 +1,18 @@
+
+FROM ubuntu:latest
+WORKDIR /root
+
+RUN apt update 
+RUN apt install -y openssh-server
+RUN apt install -y python3
+RUN apt install -y nano
+RUN apt install -y sudo
+RUN apt install -y git
+
+RUN echo "root:123456" | chpasswd
+RUN rm /etc/ssh/sshd_config
+
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+
+RUN mkdir /root/.ssh && touch /root/.ssh/authorized_keys
+CMD service ssh start ; sleep infinity

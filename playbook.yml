@@ -1,0 +1,21 @@
+- hosts: ['serv1', 'serv2', 'serv3']
+  become: yes
+  tasks:
+  - name: Install curl
+    apt:
+      name: curl
+      state: present
+  - name: Install Docker
+    shell: 'curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh'
+  - name: Install Docker
+    shell: 'sudo service docker start'
+    ignore_errors: yes
+  - name: Clonar el repositorio
+    git:
+      repo: https://gitlab.com/Juan-Angel-Cepeda/balanceo-cargas
+      dest: /home/balancing-app
+- hosts: ['serv1', 'serv2', 'serv3']
+  become: yes
+  tasks:
+  - name: Acceder a la carpeta y hacer docker compose up
+    shell: 'cd /home/balancing-app && docker compose up -d'

@@ -1,0 +1,22 @@
+#Imagen de Ubuntu
+FROM ubuntu:latest
+WORKDIR /root
+
+
+RUN apt update 
+RUN apt install -y openssh-server
+RUN apt install -y ansible 
+RUN apt install -y python3
+RUN apt install -y nano
+RUN mkdir /etc/ansible && touch /etc/ansible/hosts
+
+
+RUN echo "root:123456" | chpasswd
+RUN rm /etc/ssh/sshd_config
+RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
+RUN ssh-keygen -t rsa -f /root/.ssh/id_rsa -N ''
+RUN touch /root/.ssh/authorized_keys
+
+
+EXPOSE 22
+CMD service ssh start ; sleep infinity
